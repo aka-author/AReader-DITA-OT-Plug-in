@@ -14,7 +14,11 @@
     </xsl:template>
 
     <xsl:template match="*[@id]" mode="id">
-        <xsl:value-of select="@id"/>
+        <xsl:value-of select="@id" />
+    </xsl:template>
+
+    <xsl:template match="*[not(@id)]" mode="id">
+        <xsl:value-of select="generate-id(.)"/>
     </xsl:template>
 
     <xsl:function name="cpm:id">
@@ -148,6 +152,18 @@
         <xsl:param name="element"/>
         <xsl:apply-templates select="$element" mode="plainTextTitle"/>
     </xsl:function>
+    
+    
+    <!-- Document title -->
+    
+    <xsl:function name="cpm:DocTitle">
+        
+        <xsl:param name="element"/>
+        
+        <xsl:value-of select="root($element)//mainbooktitle"/>
+        
+    </xsl:function>
+    
 
 
 </xsl:stylesheet>

@@ -47,7 +47,7 @@
 
     <xsl:template match="*[cpm:isMap(.)]" mode="dto">
         <xsl:text>var GLOBAL_DOC_DTO = {</xsl:text>
-        <xsl:value-of select="cpm:dtoProp('id', @id)"/>
+        <xsl:value-of select="cpm:dtoProp('id', cpm:id(.))"/>
         <xsl:text>, </xsl:text>
         <xsl:value-of select="cpm:dtoProp('title', //mainbooktitle)"/>
         <xsl:text>, </xsl:text>

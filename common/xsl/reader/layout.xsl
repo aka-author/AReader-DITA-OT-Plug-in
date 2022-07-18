@@ -26,15 +26,6 @@
     </xsl:template>
 
     <xsl:template match="*" mode="htmlScriptShellJs">
-        <!--
-        <script src="front/shell/js/utils.js"/>
-        <script src="front/shell/js/bureaucrat.js"/>
-        <script src="front/shell/js/uicontrol.js"/>
-        <script src="front/shell/js/toc.js"/>
-        <script src="front/shell/js/splitter.js"/>
-        <script src="front/shell/js/app.js"/>
-        <script src="front/shell/js/shell.js"/>
-        -->
         <script src="front/shell/js/arnav.js"/>
         <script src="front/shell/js/reader.js"/>
         <script src="!docdto.js"/>
