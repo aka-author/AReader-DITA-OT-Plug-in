@@ -16,7 +16,7 @@
         <span class="breadCrambsItem">
             
             <xsl:if test="parent::*[cpm:isTopic(.)]">
-                <xsl:text> &gt; </xsl:text>
+                <xsl:text> / </xsl:text>
             </xsl:if>
             
             <xsl:apply-templates select="." mode="htmlNavLink">

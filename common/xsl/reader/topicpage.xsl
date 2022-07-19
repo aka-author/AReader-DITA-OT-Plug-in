@@ -23,10 +23,30 @@
         </xsl:element>
     </xsl:template>
 
+    <xsl:template match="*[cpm:isTopic(.)]" mode="topMatterLine">
+        <xsl:element name="div">
+            <xsl:attribute name="id" select="'divTopMatterLine'"/>
+            <xsl:element name="div">
+                <xsl:attribute name="id" select="'divTopMatterLineWrapper'"/>
+                <xsl:element name="div">
+                    <xsl:attribute name="id" select="'divBreadCrumbs'"/>
+                    <xsl:apply-templates select="." mode="htmlBreadCrambs"/>
+                </xsl:element>
+                <xsl:element name="div">
+                    <xsl:attribute name="id" select="'divPrintButton'"/>
+                    <xsl:element name="img">
+                        <xsl:attribute name="id" select="'imgPrintButton'"/>
+                        <xsl:attribute name="src" select="'front/img/print.svg'"/>
+                    </xsl:element>
+                </xsl:element>
+            </xsl:element>
+        </xsl:element>
+    </xsl:template>
+
     <xsl:template match="*[cpm:isTopic(.)]" mode="htmlMatter">
         <xsl:element name="div">
             <xsl:attribute name="id" select="'divMatter'"/>
-            <xsl:apply-templates select="." mode="htmlBreadCrambs"/>
+            <xsl:apply-templates select="." mode="topMatterLine"/>
             <xsl:apply-templates select="title" mode="html"/>
             <xsl:apply-templates select="*[cpm:isBody(.)]" mode="html"/>
         </xsl:element>
@@ -38,21 +58,56 @@
     -->
 
     <xsl:template name="htmlFrameletHeader">
+        <xsl:param name="id"/>
         <xsl:element name="div">
+            <xsl:attribute name="id" select="$id"/>
             <xsl:attribute name="class" select="'frameletHeader'"/>
+            <xsl:element name="img">
+                <xsl:attribute name="src" select="'front/img/search.svg'"/>
+                <xsl:attribute name="class" select="'searchInFramelet'"/>
+            </xsl:element>
+            <xsl:element name="img">
+                <xsl:attribute name="src" select="'front/img/close_small.svg'"/>
+                <xsl:attribute name="class" select="'closeFramelet'"/>
+            </xsl:element>
         </xsl:element>
     </xsl:template>
 
     <xsl:template name="htmlFrameletPane">
 
+        <xsl:param name="id"/>
         <xsl:param name="htmlContent"/>
 
         <xsl:element name="div">
+            <xsl:attribute name="id" select="$id"/>
             <xsl:attribute name="class" select="'frameletPane'"/>
             <xsl:copy-of select="$htmlContent"/>
         </xsl:element>
 
     </xsl:template>
+
+    <xsl:template name="htmlHeaderlessFrameletPane">
+
+        <xsl:param name="id"/>
+        <xsl:param name="htmlContent"/>
+
+        <xsl:element name="div">
+            <xsl:attribute name="id" select="$id"/>
+            <xsl:attribute name="class" select="'frameletHeaderlessPane'"/>
+            <xsl:copy-of select="$htmlContent"/>
+        </xsl:element>
+
+    </xsl:template>
+
+    <xsl:function name="cpm:frameletHeaderId">
+        <xsl:param name="frameletId"/>
+        <xsl:value-of select="concat($frameletId, 'Header')"/>
+    </xsl:function>
+
+    <xsl:function name="cpm:frameletPaneId">
+        <xsl:param name="frameletId"/>
+        <xsl:value-of select="concat($frameletId, 'Pane')"/>
+    </xsl:function>
 
     <xsl:template name="htmlFramelet">
 
@@ -67,18 +122,34 @@
             <xsl:attribute name="id" select="$id"/>
             <xsl:attribute name="class" select="'framelet'"/>
 
-            <xsl:if test="$canClose = 'yes'">
-                <xsl:call-template name="htmlFrameletHeader"/>
-            </xsl:if>
+            <xsl:choose>
 
-            <xsl:call-template name="htmlFrameletPane">
-                <xsl:with-param name="htmlContent" select="$htmlContent"/>
-            </xsl:call-template>
+                <xsl:when test="$canClose = 'yes'">
+                    <xsl:if test="$canClose = 'yes'">
+                        <xsl:call-template name="htmlFrameletHeader">
+                            <xsl:with-param name="id" select="cpm:frameletHeaderId($id)"/>
+                        </xsl:call-template>
+                    </xsl:if>
+                    <xsl:call-template name="htmlFrameletPane">
+                        <xsl:with-param name="id" select="cpm:frameletPaneId($id)"/>
+                        <xsl:with-param name="htmlContent" select="$htmlContent"/>
+                    </xsl:call-template>
+                </xsl:when>
+
+                <xsl:otherwise>
+                    <xsl:call-template name="htmlHeaderlessFrameletPane">
+                        <xsl:with-param name="id" select="cpm:frameletPaneId($id)"/>
+                        <xsl:with-param name="htmlContent" select="$htmlContent"/>
+                    </xsl:call-template>
+                </xsl:otherwise>
+
+            </xsl:choose>
 
         </xsl:element>
 
     </xsl:template>
-    
+
+
     <!-- 
         Transforming a topic to a pages
     -->
@@ -108,7 +179,7 @@
 
     <xsl:template match="*" mode="htmlLogoArea">
         <xsl:element name="div">
-            <xsl:attribute name="class" select="'logo'"/>
+            <xsl:attribute name="id" select="'divLogo'"/>
             <xsl:element name="img">
                 <xsl:attribute name="src" select="cpm:uriLogo(.)"/>
                 <xsl:attribute name="class" select="'logo'"/>
@@ -150,7 +221,7 @@
     <xsl:template match="*" mode="htmlTocArea"/>
 
     <xsl:template match="*[cpm:isTopic(.)]" mode="htmlTocArea">
-        <xsl:element name="div"> 
+        <xsl:element name="div">
             <xsl:attribute name="id" select="'divDocTitle'"/>
             <xsl:value-of select="cpm:DocTitle(.)"/>
         </xsl:element>
