@@ -177,6 +177,15 @@
 
     <!-- Page header -->
 
+    <xsl:template match="*" mode="htmlBurgerArea">
+        <xsl:element name="div">
+            <xsl:attribute name="id" select="'divBurger'"/>
+            <xsl:element name="img">
+                <xsl:attribute name="src" select="'front/img/burger-white.svg'"/>
+            </xsl:element>
+        </xsl:element>
+    </xsl:template>
+
     <xsl:template match="*" mode="htmlLogoArea">
         <xsl:element name="div">
             <xsl:attribute name="id" select="'divLogo'"/>
@@ -204,6 +213,7 @@
             <xsl:attribute name="id" select="'divPageHeader'"/>
             <xsl:element name="div">
                 <xsl:attribute name="id" select="'divPageHeaderBlocks'"/>
+                <xsl:apply-templates select="." mode="htmlBurgerArea"/>
                 <xsl:apply-templates select="." mode="htmlLogoArea"/>
                 <xsl:apply-templates select="." mode="htmlSearchArea"/>
                 <xsl:apply-templates select="." mode="htmlLangSelectorArea"/>
