@@ -62,11 +62,14 @@
         <xsl:element name="div">
             <xsl:attribute name="id" select="$id"/>
             <xsl:attribute name="class" select="'frameletHeader'"/>
+            <!--
             <xsl:element name="img">
                 <xsl:attribute name="src" select="'front/img/search.svg'"/>
                 <xsl:attribute name="class" select="'searchInFramelet'"/>
             </xsl:element>
+            -->
             <xsl:element name="img">
+                <xsl:attribute name="id" select="concat($id, 'Fold')"/>
                 <xsl:attribute name="src" select="'front/img/close_small.svg'"/>
                 <xsl:attribute name="class" select="'closeFramelet'"/>
             </xsl:element>
@@ -180,6 +183,7 @@
     <xsl:template match="*" mode="htmlBurgerArea">
         <xsl:element name="div">
             <xsl:attribute name="id" select="'divBurger'"/>
+            <xsl:attribute name="style" select="'display: block;'"/>
             <xsl:element name="img">
                 <xsl:attribute name="src" select="'front/img/burger-white.svg'"/>
             </xsl:element>
