@@ -123,6 +123,7 @@
         <xsl:element name="div">
 
             <xsl:attribute name="id" select="$id"/>
+            <!--<xsl:attribute name="style" select="'display: inline-block'"/>-->
             <xsl:attribute name="class" select="'framelet'"/>
 
             <xsl:choose>
@@ -183,7 +184,7 @@
     <xsl:template match="*" mode="htmlBurgerArea">
         <xsl:element name="div">
             <xsl:attribute name="id" select="'divBurger'"/>
-            <xsl:attribute name="style" select="'display: block;'"/>
+            <!-- <xsl:attribute name="style" select="'display: block;'"/> -->
             <xsl:element name="img">
                 <xsl:attribute name="src" select="'front/img/burger-white.svg'"/>
             </xsl:element>
@@ -257,6 +258,18 @@
     </xsl:template>
 
 
+    <xsl:template match="*" mode="htmlTocFrameletShortcut">
+        
+        <xsl:element name="div">
+            <xsl:attribute name="id" select="'tocFrameletShortcut'"/>
+            <xsl:attribute name="style" select="'display: none'"/>
+            <xsl:attribute name="class" select="'frameletShortcut'"/>
+            <xsl:text>Table of contents</xsl:text>
+        </xsl:element>
+        
+    </xsl:template>
+    
+
     <!-- Reader framelet -->
 
     <xsl:template match="*" mode="htmlReaderFramelet"/>
@@ -283,6 +296,7 @@
         <xsl:element name="div">
             <xsl:attribute name="id" select="'divReaderConsole'"/>
             <xsl:apply-templates select="." mode="htmlTocFramelet"/>
+            <xsl:apply-templates select="." mode="htmlTocFrameletShortcut"/>
             <xsl:apply-templates select="." mode="htmlReaderFramelet"/>
         </xsl:element>
     </xsl:template>
