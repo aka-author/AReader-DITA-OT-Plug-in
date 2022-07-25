@@ -118,13 +118,14 @@
         <xsl:param name="canClose" select="'yes'"/>
         <xsl:param name="canHResize" select="'yes'"/>
         <xsl:param name="canVResize" select="'yes'"/>
+        <xsl:param name="className"/>
         <xsl:param name="htmlContent"/>
 
         <xsl:element name="div">
 
             <xsl:attribute name="id" select="$id"/>
             <!--<xsl:attribute name="style" select="'display: inline-block'"/>-->
-            <xsl:attribute name="class" select="'framelet'"/>
+            <xsl:attribute name="class" select="$className"/>
 
             <xsl:choose>
 
@@ -251,6 +252,7 @@
     <xsl:template match="*[cpm:isTopic(.)]" mode="htmlTocFramelet">
         <xsl:call-template name="htmlFramelet">
             <xsl:with-param name="id" select="'divTocFramelet'"/>
+            <xsl:with-param name="className" select="'framelet'"/>
             <xsl:with-param name="htmlContent">
                 <xsl:apply-templates select="." mode="htmlTocArea"/>
             </xsl:with-param>
@@ -278,6 +280,7 @@
         <xsl:call-template name="htmlFramelet">
             <xsl:with-param name="id" select="'divMatterFramelet'"/>
             <xsl:with-param name="canClose" select="'no'"/>
+            <xsl:with-param name="className" select="'matterFramelet'"/>
             <xsl:with-param name="htmlContent">
                 <xsl:element name="div">
                     <xsl:attribute name="id" select="'divMatterArea'"/>
